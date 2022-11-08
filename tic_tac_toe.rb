@@ -1,36 +1,7 @@
-# edge = "#{"⣿\n" * 9}⣿"
-# space = "#{'⠀'*25}\n"*10 << "#{'⠀'*25}"
-# space2 = ""
-
-# eye = "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-# ⠀⠀⠀⠀⠀⢀⣠⣴⡶⠾⣿⣿⣿⣿⣍⠻⢿⣦⠀⠀⠀⠀⠀⠀⠀
-# ⠀⣀⣠⣴⣾⣿⣍⣁⡀⠀⠻⣿⣿⣿⠟⠀⢀⣹⣿⣷⣶⣶⠀⠀⠀
-# ⠀⠀⠀⠀⠀⠀⠉⠉⠛⠛⠲⠶⠶⠶⠾⠿⠛⠛⠋⠁⠀⠀⠀⠀⠀
-# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
-# crane = "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-# ⠀⠀⠀⠀⠀⣀⡖⢲⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-# ⠀⠀⣠⡶⠟⠋⠙⢺⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-# ⠀⡼⠁⠀⠀⢀⣤⠟⢀⣠⡤⠤⠤⠤⣤⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀
-# ⠀⠁⠀⠀⣼⠋⢁⡴⠋⣹⠋⠉⠀⠀⠀⠉⠿⣆⠀⠀⠀⠀⠀⠀⠀
-# ⠀⠀⠀⠀⠈⠛⠛⢶⣄⡘⠿⠶⣶⣤⣤⣤⣤⣽⣿⣦⣀⠀⠀⠀⠀
-# ⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⣿⠒⣶⠒⠒⠲⠶⠶⠶⢾⣟⢦⡀⠀⠀
-# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡿⠀⢹⠄⠀⠀⠀⠀⠀⠀⠘⠃⠀⠀⠀
-# ⠀⠀⠀⠀⠀⠀⠀⠀⢀⡼⠀⢠⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-# ⠀⠀⠀⠀⠀⠀⢀⣀⣾⣀⣠⣏⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-# ⠀⠀⠀⠀⠀⠀⠈⠉⠉⠉⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
-
-
-
 class Board
-  attr_accessor :top, :middle, :bottom, :edge, :space, :eye, :crane
-
-  def initialize()
+  attr_accessor :top, :middle, :bottom
+  attr_reader :eye, :bird
+  def initialize
     @edge = "#{"⣿\n" * 9}⣿"
     @space = "#{'⠀'*25}\n"*10 << "#{'⠀'*25}"
     @eye = "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -44,7 +15,7 @@ class Board
     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
-    @crane = "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    @bird = "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
     ⠀⠀⠀⠀⠀⣀⡖⢲⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
     ⠀⠀⣠⡶⠟⠋⠙⢺⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
     ⠀⡼⠁⠀⠀⢀⣤⠟⢀⣠⡤⠤⠤⠤⣤⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -56,131 +27,61 @@ class Board
     ⠀⠀⠀⠀⠀⠀⢀⣀⣾⣀⣠⣏⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
     ⠀⠀⠀⠀⠀⠀⠈⠉⠉⠉⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
 
+    @top = [@space, @space, @space]
+    @middle = [@space, @space, @space]
+    @bottom = [@space, @space, @space]
   end
 
-  def populate (position, edge = @edge, space = @space, eye = @eye, crane = @crane)
-
-    def spaces
-      edge.each_line.with_index do |line, index|
-        eye_line = eye.lines[index].strip
-        edge_line = edge.lines[index].strip
-        crane_line = crane.lines[index].strip
-        space_line = space.lines[index].strip
-        
-      puts line.strip + space_line + edge_line + space_line + edge_line +space_line + edge_line
-      end
-    end
-
-    def left
+  def print_board_row (row, edge = @edge)
+    edge.each_line.with_index do |line, index|
+      edge_line = edge.lines[index].strip
       
+    puts line.strip + row[0].lines[index].strip + edge_line + row[1].lines[index].strip + edge_line + row[2].lines[index].strip + edge_line
     end
+  end
 
-    def middle
-    end
-
-    def right
-    end
-
-
-    case position
-    when "top left"
-      spaces
-      spaces
-      spaces
-    when "top middle"
-    when "top right"
-    when "middle left"
-    when "middle middle"
-    when "middle right"
-    when "bottom left"
-    when "bottom middle"
-    when "bottom right"
-    else
-      puts "error"
-    end
-
-
-
+  def print_board
+    self.print_board_row(self.top)
+    self.print_board_row(self.middle)
+    self.print_board_row(self.bottom)
   end
 end
 
+the_board = Board.new
+system'clear'
+the_board.print_board
 
-board = Board.new
-
-board.populate("top left")
-
-
-
-
+puts 'Player 1 choose piece (bird or eye)'
+type = gets
 
 
-# class Piece
-#   attr_accessor :position, :type, :owner
-#   def initialize(position, type, owner)
-#     @type = type
-#     @position = position
-#     @owner = owner
-#   end
-# end
+if type == "bird\n"
+  type = the_board.bird
+elsif type == "eye\n"
+  type = the_board.eye
+end
 
+puts 'Player 1 move. State row followed by column e.g. \'top middle\'.'
 
+position = gets.split
 
+case position[1]
+when "left"
+  position[1] = 0
+when "middle"
+  position[1] = 1
+when "right"
+  position[1] = 2
+end
 
+case position[0]
+when "top"
+  the_board.top[position[1]] = type
+when "middle"
+  the_board.middle[position[1]] = type
+when "bottom"
+  the_board.bottom[position[1]] = type
+end
 
-
-
-
-
-
-
-
-# puts 'Player 1 choose piece (crane or eye)'
-# type = gets
-
-# puts 'Player 1 move. State row and column e.g. \'top middle\'.'
-
-# position = gets
-
-# puts position
-
-# system('clear')
-# piece1 = Piece.new(position, type, 'player 1')
-
-
-# def populate(top, middle, bottom)
-
-# end
-
-
-
-# edge.each_line.with_index do |line, index|
-#    eye_line = eye.lines[index].strip
-#    edge_line = edge.lines[index].strip
-#    crane_line = crane.lines[index].strip
-#    space_line = space.lines[index].strip
-   
-#   puts line.strip + space_line + edge_line + space_line + edge_line +space_line + edge_line
-# end
-
-
-
-
-
-
-# 3.times do
-#   random_img_1 = [eye, crane, space].sample
-#   random_img_2 = [eye, crane, space].sample
-#   random_img_3 = [eye, crane, space].sample
-  
-#   edge.each_line.with_index do |line, index|
-
-#     rand_img_1_line = random_img_1.lines[index].strip
-#     rand_img_2_line = random_img_2.lines[index].strip
-#     rand_img_3_line = random_img_3.lines[index].strip
-#     eye_line = eye.lines[index].strip
-#     edge_line = edge.lines[index].strip
-#     crane_line = crane.lines[index].strip
-    
-#     puts line.strip + rand_img_1_line + edge_line + rand_img_2_line + edge_line + rand_img_3_line + edge_line
-#   end
-# end
+system'clear'
+the_board.print_board
