@@ -49,7 +49,6 @@ class Board
     @top = [@space, @space, @space]
     @middle = [@space, @space, @space]
     @bottom = [@space, @space, @space]
-
     @game_status = "ongoing"
   end
 
@@ -113,17 +112,24 @@ until the_board.game_status == "Game over!" do
     the_board.bottom[position[1]] = type
   end
 
-  player_num = player_num.reverse
-
   system'clear'
   the_board.print_board
 
   the_board.set_conditionals
 
-  if the_board.top.uniq.length == 1 && !the_board.top.include?(the_board.space) || the_board.middle.uniq.length == 1 && !the_board.middle.include?(the_board.space) || the_board.bottom.uniq.length == 1 && !the_board.bottom.include?(the_board.space) || the_board.vertical_left.uniq.length == 1 && !the_board.vertical_left.include?(the_board.space) || the_board.vertical_middle.uniq.length == 1 && !the_board.vertical_middle.include?(the_board.space) || the_board.vertical_right.uniq.length == 1 && !the_board.vertical_right.include?(the_board.space) || the_board.diagonal_forward.uniq.length == 1 && !the_board.diagonal_forward.include?(the_board.space) || the_board.diagonal_back.uniq.length == 1 && !the_board.diagonal_back.include?(the_board.space) then 
+  if the_board.top.uniq.length == 1 && !the_board.top.include?(the_board.space)\
+    || the_board.middle.uniq.length == 1 && !the_board.middle.include?(the_board.space)\
+    || the_board.bottom.uniq.length == 1 && !the_board.bottom.include?(the_board.space)\
+    || the_board.vertical_left.uniq.length == 1 && !the_board.vertical_left.include?(the_board.space)\
+    || the_board.vertical_middle.uniq.length == 1 && !the_board.vertical_middle.include?(the_board.space)\
+    || the_board.vertical_right.uniq.length == 1 && !the_board.vertical_right.include?(the_board.space)\
+    || the_board.diagonal_forward.uniq.length == 1 && !the_board.diagonal_forward.include?(the_board.space)\
+    || the_board.diagonal_back.uniq.length == 1 && !the_board.diagonal_back.include?(the_board.space) 
+    then 
     puts "Player #{player_num[0]} wins! Game over!"
     the_board.game_status = "Game over!"
   end
+  player_num = player_num.reverse
 end
 
 
