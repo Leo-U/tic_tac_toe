@@ -72,6 +72,7 @@ class Board
     self.print_board_row(self.middle)
     self.print_board_row(self.bottom)
   end
+  
 end
 
 
@@ -121,7 +122,8 @@ until the_board.game_status == "Game over!" do
 
   the_board.assign_data_for_conditionals
 
-  if the_board.top.uniq.length == 1 && !the_board.top.include?(the_board.space)\
+  def game_won?(the_board)
+    the_board.top.uniq.length == 1 && !the_board.top.include?(the_board.space)\
     || the_board.middle.uniq.length == 1 && !the_board.middle.include?(the_board.space)\
     || the_board.bottom.uniq.length == 1 && !the_board.bottom.include?(the_board.space)\
     || the_board.vertical_left.uniq.length == 1 && !the_board.vertical_left.include?(the_board.space)\
@@ -129,10 +131,13 @@ until the_board.game_status == "Game over!" do
     || the_board.vertical_right.uniq.length == 1 && !the_board.vertical_right.include?(the_board.space)\
     || the_board.diagonal_forward.uniq.length == 1 && !the_board.diagonal_forward.include?(the_board.space)\
     || the_board.diagonal_back.uniq.length == 1 && !the_board.diagonal_back.include?(the_board.space) 
-    then
+  end
+
+  if game_won?(the_board) then 
     puts "Player #{player_switch[0]} wins! Game over!"
     the_board.game_status = "Game over!"
   end
+
   player_switch = player_switch.reverse
   type_switch = type_switch.reverse
 end
