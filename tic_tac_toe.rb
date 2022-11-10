@@ -74,23 +74,27 @@ class Board
   end
 end
 
+
 the_board = Board.new
 system'clear'
 the_board.print_board
 
-player_num = [1,2]
+player_switch = [1, 2]
 
-puts "Player #{player_num[0]} choose piece (bird or eye)."
+puts 'Player 1 choose piece (bird or eye).'
 type = gets
 
+system'clear'
+the_board.print_board
+
 if type == "bird\n"
-  type_arr = [the_board.bird, the_board.eye]
+  type_switch = [the_board.bird, the_board.eye]
 elsif type == "eye\n"
-  type_arr = [the_board.eye, the_board.bird]
+  type_switch = [the_board.eye, the_board.bird]
 end
 
 until the_board.game_status == "Game over!" do
-  puts "Player #{player_num[0]} move. State row followed by column e.g. \'top middle\'."
+  puts "Player #{player_switch[0]} move. State row followed by column e.g. \'top middle\'."
 
   position = gets.split
 
@@ -105,11 +109,11 @@ until the_board.game_status == "Game over!" do
 
   case position[0]
   when "top"
-    the_board.top[position[1]] = type_arr[0]
+    the_board.top[position[1]] = type_switch[0]
   when "middle"
-    the_board.middle[position[1]] = type_arr[0]
+    the_board.middle[position[1]] = type_switch[0]
   when "bottom"
-    the_board.bottom[position[1]] = type_arr[0]
+    the_board.bottom[position[1]] = type_switch[0]
   end
 
   system'clear'
@@ -126,11 +130,11 @@ until the_board.game_status == "Game over!" do
     || the_board.diagonal_forward.uniq.length == 1 && !the_board.diagonal_forward.include?(the_board.space)\
     || the_board.diagonal_back.uniq.length == 1 && !the_board.diagonal_back.include?(the_board.space) 
     then
-    puts "Player #{player_num[0]} wins! Game over!"
+    puts "Player #{player_switch[0]} wins! Game over!"
     the_board.game_status = "Game over!"
   end
-  player_num = player_num.reverse
-  type_arr = type_arr.reverse
+  player_switch = player_switch.reverse
+  type_switch = type_switch.reverse
 end
 
 
