@@ -52,12 +52,12 @@ class Board
     @game_status = "ongoing"
   end
 
-  def set_conditionals
-    @vertical_left = [self.top[0], self.middle[0], self.bottom[0]]
-    @vertical_middle = [self.top[1], self.middle[1], self.bottom[1]]
-    @vertical_right = [self.top[2], self.middle[2], self.bottom[2]]
-    @diagonal_forward = [self.bottom[0], self.middle[1], self.top[2]]
-    @diagonal_back = [self.top[0], self.middle[1], self.bottom[2]]
+  def assign_data_for_conditionals
+    @vertical_left = [@top[0], @middle[0], @bottom[0]]
+    @vertical_middle = [@top[1], @middle[1], @bottom[1]]
+    @vertical_right = [@top[2], @middle[2], @bottom[2]]
+    @diagonal_forward = [@bottom[0], @middle[1], @top[2]]
+    @diagonal_back = [@top[0], @middle[1], @bottom[2]]
   end
 
   def print_board_row (row, edge = @edge)
@@ -80,16 +80,16 @@ the_board.print_board
 
 player_num = [1,2]
 
+puts "Player #{player_num[0]} choose piece (bird or eye)."
+type = gets
+
+if type == "bird\n"
+  type_arr = [the_board.bird, the_board.eye]
+elsif type == "eye\n"
+  type_arr = [the_board.eye, the_board.bird]
+end
+
 until the_board.game_status == "Game over!" do
-  puts "Player #{player_num[0]} choose piece (bird or eye)"
-  type = gets
-
-  if type == "bird\n"
-    type = the_board.bird
-  elsif type == "eye\n"
-    type = the_board.eye
-  end
-
   puts "Player #{player_num[0]} move. State row followed by column e.g. \'top middle\'."
 
   position = gets.split
@@ -105,17 +105,17 @@ until the_board.game_status == "Game over!" do
 
   case position[0]
   when "top"
-    the_board.top[position[1]] = type
+    the_board.top[position[1]] = type_arr[0]
   when "middle"
-    the_board.middle[position[1]] = type
+    the_board.middle[position[1]] = type_arr[0]
   when "bottom"
-    the_board.bottom[position[1]] = type
+    the_board.bottom[position[1]] = type_arr[0]
   end
 
   system'clear'
   the_board.print_board
 
-  the_board.set_conditionals
+  the_board.assign_data_for_conditionals
 
   if the_board.top.uniq.length == 1 && !the_board.top.include?(the_board.space)\
     || the_board.middle.uniq.length == 1 && !the_board.middle.include?(the_board.space)\
@@ -125,11 +125,12 @@ until the_board.game_status == "Game over!" do
     || the_board.vertical_right.uniq.length == 1 && !the_board.vertical_right.include?(the_board.space)\
     || the_board.diagonal_forward.uniq.length == 1 && !the_board.diagonal_forward.include?(the_board.space)\
     || the_board.diagonal_back.uniq.length == 1 && !the_board.diagonal_back.include?(the_board.space) 
-    then 
+    then
     puts "Player #{player_num[0]} wins! Game over!"
     the_board.game_status = "Game over!"
   end
   player_num = player_num.reverse
+  type_arr = type_arr.reverse
 end
 
 
