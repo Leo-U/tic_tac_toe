@@ -1,6 +1,6 @@
 class Board
   attr_accessor :top, :middle, :bottom, :game_status
-  attr_reader :eye, :bird, :vertical_left, :vertical_middle, :vertical_right, :diagonal_forward, :diagonal_back
+  attr_reader :eye, :bird, :vertical_left, :vertical_middle, :vertical_right, :diagonal_forward, :diagonal_back, :space
   def initialize
     @edge = "⣿
     ⣿
@@ -50,14 +50,15 @@ class Board
     @middle = [@space, @space, @space]
     @bottom = [@space, @space, @space]
 
-    #used for game over conditionals:
-    @vertical_left = [@top[0], @middle[0], @bottom[0]]
-    @vertical_middle = [@top[1], @middle[1], @bottom[1]]
-    @vertical_right = [@top[2], @middle[2], @bottom[2]]
-    @diagonal_forward = [@bottom[0], @middle[1], @top[2]]
-    @diagonal_back = [@top[0], @middle[1], @bottom[2]]
     @game_status = "ongoing"
+  end
 
+  def set_conditionals
+    @vertical_left = [self.top[0], self.middle[0], self.bottom[0]]
+    @vertical_middle = [self.top[1], self.middle[1], self.bottom[1]]
+    @vertical_right = [self.top[2], self.middle[2], self.bottom[2]]
+    @diagonal_forward = [self.bottom[0], self.middle[1], self.top[2]]
+    @diagonal_back = [self.top[0], self.middle[1], self.bottom[2]]
   end
 
   def print_board_row (row, edge = @edge)
@@ -78,50 +79,53 @@ the_board = Board.new
 system'clear'
 the_board.print_board
 
-puts 'Player 1 choose piece (bird or eye)'
-type = gets
+player_num = [1,2]
 
-if type == "bird\n"
-  type = the_board.bird
-elsif type == "eye\n"
-  type = the_board.eye
+until the_board.game_status == "Game over!" do
+  puts "Player #{player_num[0]} choose piece (bird or eye)"
+  type = gets
+
+  if type == "bird\n"
+    type = the_board.bird
+  elsif type == "eye\n"
+    type = the_board.eye
+  end
+
+  puts "Player #{player_num[0]} move. State row followed by column e.g. \'top middle\'."
+
+  position = gets.split
+
+  case position[1]
+  when "left"
+    position[1] = 0
+  when "middle"
+    position[1] = 1
+  when "right"
+    position[1] = 2
+  end
+
+  case position[0]
+  when "top"
+    the_board.top[position[1]] = type
+  when "middle"
+    the_board.middle[position[1]] = type
+  when "bottom"
+    the_board.bottom[position[1]] = type
+  end
+
+  player_num = player_num.reverse
+
+  system'clear'
+  the_board.print_board
+
+  the_board.set_conditionals
+
+  if the_board.top.uniq.length == 1 && !the_board.top.include?(the_board.space) || the_board.middle.uniq.length == 1 && !the_board.middle.include?(the_board.space) || the_board.bottom.uniq.length == 1 && !the_board.bottom.include?(the_board.space) || the_board.vertical_left.uniq.length == 1 && !the_board.vertical_left.include?(the_board.space) || the_board.vertical_middle.uniq.length == 1 && !the_board.vertical_middle.include?(the_board.space) || the_board.vertical_right.uniq.length == 1 && !the_board.vertical_right.include?(the_board.space) || the_board.diagonal_forward.uniq.length == 1 && !the_board.diagonal_forward.include?(the_board.space) || the_board.diagonal_back.uniq.length == 1 && !the_board.diagonal_back.include?(the_board.space) then 
+    puts "Player #{player_num[0]} wins! Game over!"
+    the_board.game_status = "Game over!"
+  end
 end
 
-puts 'Player 1 move. State row followed by column e.g. \'top middle\'.'
-
-position = gets.split
-
-case position[1]
-when "left"
-  position[1] = 0
-when "middle"
-  position[1] = 1
-when "right"
-  position[1] = 2
-end
-
-case position[0]
-when "top"
-  the_board.top[position[1]] = type
-when "middle"
-  the_board.middle[position[1]] = type
-when "bottom"
-  the_board.bottom[position[1]] = type
-end
-
-system'clear'
-the_board.print_board
 
 #plan: loop "player 1 move, player 2 move" until win for either player is achieved, or until a draw occurs. use until loop?
 #instead of if statements, maybe make multiple arrays of instance variables named vertical and diagonal... horiz. already present.
-
-if the_board.top.uniq.length == 1 && !the_board.top.include(@space)
-  || the_board.middle.uniq.length == 1 && !the_board.middle.include(@space)
-  || the_board.bottom.uniq.length == 1 && !the_board.bottom.include(@space)
-  || the_board.vertical_left.uniq.length == 1 && !the_board.vertical_left.include(@space)
-  || the_board.vertical_middle.uniq.length == 1 && !the_board.vertical_middle.include(@space)
-  || the_board.vertical_right.uniq.length == 1 && !the_board.vertical_right.include(@space)
-  || the_board.diagonal_forward.uniq.length == 1 && !the_board.diagonal_forward.include(@space)
-  || the_board.diagonal_back.uniq.length == 1 && !the_board.diagonal_back.include(@space)
-  then the_board.game_status == "Game over!"
-end
