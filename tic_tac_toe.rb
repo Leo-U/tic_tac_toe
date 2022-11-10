@@ -1,8 +1,7 @@
 class Board
-  attr_accessor :top, :middle, :bottom
-  attr_reader :eye, :bird
+  attr_accessor :top, :middle, :bottom, :game_status
+  attr_reader :eye, :bird, :vertical_left, :vertical_middle, :vertical_right, :diagonal_forward, :diagonal_back
   def initialize
-    #@edge and @space are multiple  
     @edge = "⣿
     ⣿
     ⣿
@@ -50,13 +49,21 @@ class Board
     @top = [@space, @space, @space]
     @middle = [@space, @space, @space]
     @bottom = [@space, @space, @space]
+
+    #used for game over conditionals:
+    @vertical_left = [@top[0], @middle[0], @bottom[0]]
+    @vertical_middle = [@top[1], @middle[1], @bottom[1]]
+    @vertical_right = [@top[2], @middle[2], @bottom[2]]
+    @diagonal_forward = [@bottom[0], @middle[1], @top[2]]
+    @diagonal_back = [@top[0], @middle[1], @bottom[2]]
+    @game_status = "ongoing"
+
   end
 
   def print_board_row (row, edge = @edge)
     edge.each_line.with_index do |line, index|
       edge_line = edge.lines[index].strip
-      
-    puts line.strip + row[0].lines[index].strip + edge_line + row[1].lines[index].strip + edge_line + row[2].lines[index].strip + edge_line
+      puts line.strip + row[0].lines[index].strip + edge_line + row[1].lines[index].strip + edge_line + row[2].lines[index].strip + edge_line
     end
   end
 
@@ -73,7 +80,6 @@ the_board.print_board
 
 puts 'Player 1 choose piece (bird or eye)'
 type = gets
-
 
 if type == "bird\n"
   type = the_board.bird
@@ -105,3 +111,17 @@ end
 
 system'clear'
 the_board.print_board
+
+#plan: loop "player 1 move, player 2 move" until win for either player is achieved, or until a draw occurs. use until loop?
+#instead of if statements, maybe make multiple arrays of instance variables named vertical and diagonal... horiz. already present.
+
+if the_board.top.uniq.length == 1 && !the_board.top.include(@space)
+  || the_board.middle.uniq.length == 1 && !the_board.middle.include(@space)
+  || the_board.bottom.uniq.length == 1 && !the_board.bottom.include(@space)
+  || the_board.vertical_left.uniq.length == 1 && !the_board.vertical_left.include(@space)
+  || the_board.vertical_middle.uniq.length == 1 && !the_board.vertical_middle.include(@space)
+  || the_board.vertical_right.uniq.length == 1 && !the_board.vertical_right.include(@space)
+  || the_board.diagonal_forward.uniq.length == 1 && !the_board.diagonal_forward.include(@space)
+  || the_board.diagonal_back.uniq.length == 1 && !the_board.diagonal_back.include(@space)
+  then the_board.game_status == "Game over!"
+end
