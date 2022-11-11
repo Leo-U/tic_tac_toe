@@ -108,13 +108,30 @@ until the_board.game_status == "victory" || the_board.game_status == "draw" do
     position[1] = 2
   end
 
+  str = "Please choose an empty space."
+
   case position[0]
   when "top"
-    the_board.top[position[1]] = type_switch[0]
+    if the_board.top[position[1]] == the_board.space
+      the_board.top[position[1]] = type_switch[0]
+    else
+      puts str
+      redo
+    end
   when "middle"
-    the_board.middle[position[1]] = type_switch[0]
+    if the_board.middle[position[1]] == the_board.space
+      the_board.middle[position[1]] = type_switch[0]
+    else
+      puts str
+      redo
+    end
   when "bottom"
-    the_board.bottom[position[1]] = type_switch[0]
+    if the_board.bottom[position[1]] == the_board.space
+      the_board.bottom[position[1]] = type_switch[0]
+    else
+      puts str
+      redo
+    end
   end
 
   system'clear'
