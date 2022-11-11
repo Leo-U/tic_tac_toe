@@ -1,6 +1,6 @@
 class Board
   attr_accessor :top, :middle, :bottom, :game_status
-  attr_reader :eye, :bird, :vertical_left, :vertical_middle, :vertical_right, :diagonal_forward, :diagonal_back, :space
+  attr_reader :eye, :bird, :vertical_left, :vertical_middle, :vertical_right, :diagonal_forward, :diagonal_back, :total, :space
   def initialize
     @edge = "⣿
     ⣿
@@ -58,6 +58,7 @@ class Board
     @vertical_right = [@top[2], @middle[2], @bottom[2]]
     @diagonal_forward = [@bottom[0], @middle[1], @top[2]]
     @diagonal_back = [@top[0], @middle[1], @bottom[2]]
+    @total = [@top, @middle, @bottom]
   end
 
   def print_board_row (row, edge = @edge)
@@ -74,7 +75,6 @@ class Board
   end
   
 end
-
 
 the_board = Board.new
 system'clear'
@@ -94,7 +94,7 @@ elsif type == "eye\n"
   type_switch = [the_board.eye, the_board.bird]
 end
 
-until the_board.game_status == "Game over!" do
+until the_board.game_status == "victory" || the_board.game_status == "draw" do
   puts "Player #{player_switch[0]} move. State row followed by column e.g. \'top middle\'."
 
   position = gets.split
@@ -135,13 +135,15 @@ until the_board.game_status == "Game over!" do
 
   if game_won?(the_board) then 
     puts "Player #{player_switch[0]} wins! Game over!"
-    the_board.game_status = "Game over!"
+    the_board.game_status = "victory"
+  elsif !the_board.total.flatten.include?(the_board.space) && !game_won?(the_board)
+    puts "It's a draw."
+    the_board.game_status = "draw"
   end
 
   player_switch = player_switch.reverse
   type_switch = type_switch.reverse
 end
-
 
 #plan: loop "player 1 move, player 2 move" until win for either player is achieved, or until a draw occurs. use until loop?
 #instead of if statements, maybe make multiple arrays of instance variables named vertical and diagonal... horiz. already present.
