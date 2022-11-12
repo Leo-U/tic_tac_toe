@@ -1,6 +1,6 @@
 class Board
   attr_accessor :top, :middle, :bottom, :game_status
-  attr_reader :eye, :bird, :space, :vertical_left, :vertical_middle, :vertical_right, :diagonal_forward, :diagonal_back, :total
+  attr_reader :eye, :scarab, :space, :vertical_left, :vertical_middle, :vertical_right, :diagonal_forward, :diagonal_back, :total
   def initialize
     @edge = "⣿
     ⣿
@@ -34,17 +34,17 @@ class Board
     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
-    @bird = "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⣀⡖⢲⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ⠀⠀⣠⡶⠟⠋⠙⢺⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ⠀⡼⠁⠀⠀⢀⣤⠟⢀⣠⡤⠤⠤⠤⣤⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ⠀⠁⠀⠀⣼⠋⢁⡴⠋⣹⠋⠉⠀⠀⠀⠉⠿⣆⠀⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠈⠛⠛⢶⣄⡘⠿⠶⣶⣤⣤⣤⣤⣽⣿⣦⣀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⣿⠒⣶⠒⠒⠲⠶⠶⠶⢾⣟⢦⡀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡿⠀⢹⠄⠀⠀⠀⠀⠀⠀⠘⠃⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠀⠀⢀⡼⠀⢠⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⢀⣀⣾⣀⣠⣏⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠈⠉⠉⠉⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
+    @scarab = "⠀⠀⠀⠀⠀⠀⢀⣠⣴⠇⠀⠀⠀⠀⠀⠀⣦⣄⠀⠀⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀⢀⣾⠏⠀⠀⢀⣴⣶⣷⣤⡀⠀⠙⣿⡀⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀⠈⣿⠀⣀⣄⡿⠿⣿⣿⠿⣫⣄⠀⢸⠃⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀⠀⠹⢰⣿⣿⣿⣿⣷⣾⣿⣿⣿⣷⠸⠀⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀⠀⠀⢈⠿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠀⠀⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀⠀⣰⠋⣿⣮⣝⣛⠻⢛⣛⣭⣶⣇⠰⡀⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀⢰⡇⢸⣿⣿⣿⣿⡇⣿⣿⣿⣿⣿⠀⢱⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀⠘⠀⢸⣿⣿⣿⣿⡇⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀⠀⡴⠾⣿⣿⣿⣿⡇⣿⣿⣿⣿⡟⠶⡄⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀⠀⠑⢄⡹⢿⣿⣿⡇⣿⣿⣿⠟⢁⠔⠀⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠈⠂⠈⠉⠃⠛⠉⠡⠒⠁⠀⠀⠀⠀⠀⠀⠀"
 
     @top = [@space, @space, @space]
     @middle = [@space, @space, @space]
@@ -93,16 +93,16 @@ the_board.print_board
 
 player_switch = [1, 2]
 
-puts 'Player 1 choose piece (bird or eye).'
+puts 'Player 1 choose piece (scarab or eye).'
 type = gets
 
 system'clear'
 the_board.print_board
 
-if type == "bird\n"
-  type_switch = [the_board.bird, the_board.eye]
+if type == "scarab\n"
+  type_switch = [the_board.scarab, the_board.eye]
 elsif type == "eye\n"
-  type_switch = [the_board.eye, the_board.bird]
+  type_switch = [the_board.eye, the_board.scarab]
 end
 
 until the_board.game_status == "victory" || the_board.game_status == "draw" do
