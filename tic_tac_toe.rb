@@ -268,21 +268,20 @@ until the_board.game_status == "victory" || the_board.game_status == "draw" do
     redo
   end
 
+  if the_board.x.include?(type_switch[0])
+    the_board.x.rotate!
+    type_switch[0] = the_board.x[0]
+    the_board.piece_arr = the_board.x
+  elsif the_board.o.include?(type_switch[0])
+    the_board.o.rotate!
+    type_switch[0] = the_board.o[0]
+    the_board.piece_arr = the_board.o
+  end
+
   system'clear'
   the_board.print_board
 
   the_board.assign_for_win_check
-
-  the_board.x = the_board.x.rotate
-  the_board.o = the_board.o.rotate
-  
-  if the_board.x.include?(type_switch[0])
-    type_switch[0] = the_board.x[0]
-    the_board.piece_arr = the_board.x
-  elsif the_board.o.include?(type_switch[0])
-    type_switch[0] = the_board.o[0]
-    the_board.piece_arr = the_board.o
-  end
 
   if the_board.game_won? then 
     puts "Player #{player_switch[0]} wins! Game over!"
