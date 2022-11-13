@@ -1,5 +1,5 @@
 class Board
-  attr_accessor :top, :middle, :bottom, :game_status, :x, :o, :piece
+  attr_accessor :top, :middle, :bottom, :game_status, :x, :o, :piece_arr
   attr_reader :space, :section_top, :top_left_gap, :top_left_vert, :top_right_vert, :upper_horiz, :middle_left_gap, :middle_left_vert, :middle_right_vert, :lower_horiz, :bottom_left_gap, :bottom_left_vert, :bottom_right_vert, :section_bottom, :vert_left, :vert_middle, :vert_right, :diag_forward, :diag_back, :total, :x1, :x2, :x3, :x4, :o1, :o2, :o3, :o4
   def initialize
 
@@ -175,7 +175,7 @@ class Board
     @middle = [@space, @space, @space]
     @bottom = [@space, @space, @space]
     @game_status = "ongoing"
-    @piece = nil
+    @piece_arr = []
   end
 
   def assign_for_win_check
@@ -188,7 +188,7 @@ class Board
   end
 
   def game_won?
-    @total.any?{|el| el.all? {|e| @piece.include?(e)}}
+    @total.any?{|el| el.all? {|e| @piece_arr.include?(e)}}
   end
 
   def print_board_row (row, left_sp, left_div, right_div)
@@ -214,8 +214,14 @@ the_board.print_board
 
 player_switch = [1, 2]
 
-puts 'Player 1 choose piece (X or O).'
-type = gets.chomp.downcase
+typo_str = "Typo. Try again."
+type = ''
+
+until type == 'o' || type == 'x' do
+  puts 'Player 1 choose piece_arr (X or O).'
+  type = gets.chomp.downcase
+  puts typo_str
+end
 
 system'clear'
 the_board.print_board
@@ -238,6 +244,9 @@ until the_board.game_status == "victory" || the_board.game_status == "draw" do
     position[1] = 1
   when "right"
     position[1] = 2
+  else
+    puts typo_str
+    redo
   end
 
   case position[0]
@@ -247,6 +256,9 @@ until the_board.game_status == "victory" || the_board.game_status == "draw" do
     x = the_board.middle
   when "bottom"
     x = the_board.bottom
+  else
+    puts typo_str
+    redo
   end
 
   if x[position[1]] == the_board.space
@@ -266,10 +278,10 @@ until the_board.game_status == "victory" || the_board.game_status == "draw" do
   
   if the_board.x.include?(type_switch[0])
     type_switch[0] = the_board.x[0]
-    the_board.piece = the_board.x
+    the_board.piece_arr = the_board.x
   elsif the_board.o.include?(type_switch[0])
     type_switch[0] = the_board.o[0]
-    the_board.piece = the_board.o
+    the_board.piece_arr = the_board.o
   end
 
   if the_board.game_won? then 
