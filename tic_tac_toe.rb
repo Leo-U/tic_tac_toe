@@ -217,9 +217,10 @@ player_switch = [1, 2]
 typo_str = "Typo. Try again."
 type = ''
 
-until type == 'o' || type == 'x' do
+loop do
   puts 'Player 1 choose piece_arr (X or O).'
   type = gets.chomp.downcase
+  break if type == 'o' || type == 'x'
   puts typo_str
 end
 
