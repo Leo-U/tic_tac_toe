@@ -1,6 +1,6 @@
 class Board
-  attr_accessor :top, :middle, :bottom, :game_status, :x, :o
-  attr_reader :space, :section_top, :top_left_gap, :top_left_vert, :top_right_vert, :upper_horiz, :middle_left_gap, :middle_left_vert, :middle_right_vert, :lower_horiz, :bottom_left_gap, :bottom_left_vert, :bottom_right_vert, :section_bottom, :vertical_left, :vertical_middle, :vertical_right, :diagonal_forward, :diagonal_back, :total, :x1, :x2, :x3, :x4, :o1, :o2, :o3, :o4
+  attr_accessor :top, :middle, :bottom, :game_status, :x, :o, :piece
+  attr_reader :space, :section_top, :top_left_gap, :top_left_vert, :top_right_vert, :upper_horiz, :middle_left_gap, :middle_left_vert, :middle_right_vert, :lower_horiz, :bottom_left_gap, :bottom_left_vert, :bottom_right_vert, :section_bottom, :vert_left, :vert_middle, :vert_right, :diag_forward, :diag_back, :total, :x1, :x2, :x3, :x4, :o1, :o2, :o3, :o4
   def initialize
 
 
@@ -168,33 +168,27 @@ class Board
     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
-    @x = [self.x1, self.x2, self.x3, self.x4]
-    @o = [self.o1, self.o2, self.o3, self.o4]
+    @x = [@x1, @x2, @x3, @x4]
+    @o = [@o1, @o2, @o3, @o4]
 
     @top = [@space, @space, @space]
     @middle = [@space, @space, @space]
     @bottom = [@space, @space, @space]
     @game_status = "ongoing"
+    @piece = nil
   end
 
-  def assign_data_for_conditionals
-    @vertical_left = [@top[0], @middle[0], @bottom[0]]
-    @vertical_middle = [@top[1], @middle[1], @bottom[1]]
-    @vertical_right = [@top[2], @middle[2], @bottom[2]]
-    @diagonal_forward = [@bottom[0], @middle[1], @top[2]]
-    @diagonal_back = [@top[0], @middle[1], @bottom[2]]
-    @total = [@top, @middle, @bottom]
+  def assign_for_win_check
+    @vert_left = [@top[0], @middle[0], @bottom[0]]
+    @vert_middle = [@top[1], @middle[1], @bottom[1]]
+    @vert_right = [@top[2], @middle[2], @bottom[2]]
+    @diag_forward = [@bottom[0], @middle[1], @top[2]]
+    @diag_back = [@top[0], @middle[1], @bottom[2]]
+    @total = [@top, @middle, @bottom, @vert_left, @vert_middle, @vert_right, @diag_forward, @diag_back]
   end
 
   def game_won?
-    self.top.all? {|e| self.x.include?(e)} || self.top.all? {|e| self.o.include?(e)} && !self.top.include?(self.space)\
-    || self.middle.all? {|e| self.x.include?(e)} || self.middle.all? {|e| self.o.include?(e)} && !self.middle.include?(self.space)\
-    || self.bottom.all? {|e| self.x.include?(e)} || self.bottom.all? {|e| self.o.include?(e)} && !self.bottom.include?(self.space)\
-    || self.vertical_left.all? {|e| self.x.include?(e)} || self.vertical_left.all? {|e| self.o.include?(e)} && !self.vertical_left.include?(self.space)\
-    || self.vertical_middle.all? {|e| self.x.include?(e)} || self.vertical_middle.all? {|e| self.o.include?(e)} && !self.vertical_middle.include?(self.space)\
-    || self.vertical_right.all? {|e| self.x.include?(e)} || self.vertical_right.all? {|e| self.o.include?(e)} && !self.vertical_right.include?(self.space)\
-    || self.diagonal_forward.all? {|e| self.x.include?(e)} || self.diagonal_forward.all? {|e| self.o.include?(e)} && !self.diagonal_forward.include?(self.space)\
-    || self.diagonal_back.all? {|e| self.x.include?(e)} || self.diagonal_back.all? {|e| self.o.include?(e)} && !self.diagonal_back.include?(self.space) 
+    @total.any?{|el| el.all? {|e| @piece.include?(e)}}
   end
 
   def print_board_row (row, left_sp, left_div, right_div)
@@ -246,36 +240,37 @@ until the_board.game_status == "victory" || the_board.game_status == "draw" do
     position[1] = 2
   end
 
-  str = "Please choose an empty space."
-
   case position[0]
   when "top"
-    if the_board.top[position[1]] == the_board.space
-      the_board.top[position[1]] = type_switch[0]
-    else
-      puts str
-      redo
-    end
+    x = the_board.top
   when "middle"
-    if the_board.middle[position[1]] == the_board.space
-      the_board.middle[position[1]] = type_switch[0]
-    else
-      puts str
-      redo
-    end
+    x = the_board.middle
   when "bottom"
-    if the_board.bottom[position[1]] == the_board.space
-      the_board.bottom[position[1]] = type_switch[0]
-    else
-      puts str
-      redo
-    end
+    x = the_board.bottom
+  end
+
+  if x[position[1]] == the_board.space
+    x[position[1]] = type_switch[0]
+  else
+    puts "Please choose an empty space."
+    redo
   end
 
   system'clear'
   the_board.print_board
 
-  the_board.assign_data_for_conditionals
+  the_board.assign_for_win_check
+
+  the_board.x = the_board.x.rotate
+  the_board.o = the_board.o.rotate
+  
+  if the_board.x.include?(type_switch[0])
+    type_switch[0] = the_board.x[0]
+    the_board.piece = the_board.x
+  elsif the_board.o.include?(type_switch[0])
+    type_switch[0] = the_board.o[0]
+    the_board.piece = the_board.o
+  end
 
   if the_board.game_won? then 
     puts "Player #{player_switch[0]} wins! Game over!"
@@ -284,16 +279,6 @@ until the_board.game_status == "victory" || the_board.game_status == "draw" do
     puts "It's a draw. Game over."
     the_board.game_status = "draw"
   end
-
   player_switch = player_switch.reverse
-
-  the_board.x = the_board.x.rotate
-  the_board.o = the_board.o.rotate
-  
-  if the_board.x.include?(type_switch[0])
-    type_switch[0] = the_board.x[0]
-  elsif the_board.o.include?(type_switch[0])
-    type_switch[0] = the_board.o[0]
-  end
   type_switch = type_switch.reverse
 end
