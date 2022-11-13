@@ -1,50 +1,175 @@
 class Board
-  attr_accessor :top, :middle, :bottom, :game_status
-  attr_reader :eye, :scarab, :space, :vertical_left, :vertical_middle, :vertical_right, :diagonal_forward, :diagonal_back, :total
+  attr_accessor :top, :middle, :bottom, :game_status, :x, :o
+  attr_reader :space, :section_top, :top_left_gap, :top_left_vert, :top_right_vert, :upper_horiz, :middle_left_gap, :middle_left_vert, :middle_right_vert, :lower_horiz, :bottom_left_gap, :bottom_left_vert, :bottom_right_vert, :section_bottom, :vertical_left, :vertical_middle, :vertical_right, :diagonal_forward, :diagonal_back, :total, :x1, :x2, :x3, :x4, :o1, :o2, :o3, :o4
   def initialize
-    @edge = "⣿
-    ⣿
-    ⣿
-    ⣿
-    ⣿
-    ⣿
-    ⣿
-    ⣿
-    ⣿
-    ⣿"
-    @space = "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
-    @eye = "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⢀⣠⣴⡶⠾⣿⣿⣿⣿⣍⠻⢿⣦⠀⠀⠀⠀⠀⠀⠀
-    ⠀⣀⣠⣴⣾⣿⣍⣁⡀⠀⠻⣿⣿⣿⠟⠀⢀⣹⣿⣷⣶⣶⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠉⠉⠛⠛⠲⠶⠶⠶⠾⠿⠛⠛⠋⠁⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
-    @scarab = "⠀⠀⠀⠀⠀⠀⢀⣠⣴⠇⠀⠀⠀⠀⠀⠀⣦⣄⠀⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⢀⣾⠏⠀⠀⢀⣴⣶⣷⣤⡀⠀⠙⣿⡀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠈⣿⠀⣀⣄⡿⠿⣿⣿⠿⣫⣄⠀⢸⠃⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠹⢰⣿⣿⣿⣿⣷⣾⣿⣿⣿⣷⠸⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠀⢈⠿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠀⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⣰⠋⣿⣮⣝⣛⠻⢛⣛⣭⣶⣇⠰⡀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⢰⡇⢸⣿⣿⣿⣿⡇⣿⣿⣿⣿⣿⠀⢱⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠘⠀⢸⣿⣿⣿⣿⡇⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⡴⠾⣿⣿⣿⣿⡇⣿⣿⣿⣿⡟⠶⡄⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠑⢄⡹⢿⣿⣿⡇⣿⣿⣿⠟⢁⠔⠀⠀⠀⠀⠀⠀
-    ⠀⠀⠀⠀⠀⠀⠀⠀⠈⠂⠈⠉⠃⠛⠉⠡⠒⠁⠀⠀⠀⠀⠀⠀⠀"
+
+
+    @section_top = "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
+    
+    @top_left_gap = "⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀"
+    
+    
+    @top_left_vert = "⠀⠀⠀⢸⣿⠀⠀⠀⠀
+    ⠀⠀⠀⢸⣿⠀⠀⠀⠀
+    ⠀⠀⠀⣾⣿⡇⠀⠀⠀
+    ⠀⠀⠀⣽⣿⡇⠀⠀⠀
+    ⠀⠀⠀⣿⣿⡇⠀⠀⠀
+    ⠀⠀⠀⣿⣿⡇⠀⠀⠀
+    ⠀⠀⠀⣿⣿⣷⠀⠀⠀"
+    
+    @top_right_vert = "⠀⠀⠀⢀⣿⣿⣿⡇⠀⠀⠀⠀⠀
+    ⠀⠀⠀⢸⣿⣿⣿⠃⠀⠀⠀⠀⠀
+    ⠀⠀⠀⣼⣿⣿⣿⠀⠀⠀⠀⠀⠀
+    ⠀⠀⠀⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀
+    ⠀⠀⢰⣿⣿⣿⠇⠀⠀⠀⠀⠀⠀
+    ⠀⠀⢸⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀
+    ⠀⠀⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀"
+    
+    @upper_horiz = "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⡀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⠀⣀⣀⣀⣀⣀⣀⣀⣤⣤⣤⣤⣤⣤⣤⣶⣶⣶⣶⣶⣶⣿⣿⣿⣿⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⠀⠀⠀⣀⣀⣀⣀⣠⣤⣤⣤⣤⣤⣴⣤⣶⣶⣶⣶⣶⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠟⠛⠛⠛⠛⠛⠛⠛⠛⠛⠉⠉⠉
+⠀⠉⠙⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⣿⣿⣿⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⢩⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
+    
+    
+    @middle_left_gap = "⠀⠀⠀⠀
+    ⠀⠀⠀⠀
+    ⠀⠀⠀⠀
+    ⠀⠀⠀⠀
+    ⠀⠀⠀⠀
+    ⠀⠀⠀⠀
+    ⠀⠀⠀⠀"
+    
+    @middle_left_vert = "⠀⠀⠀⢰⣿⣿⣿⠀⠀
+    ⠀⠀⠀⢸⣿⣿⣿⠀⠀
+    ⠀⠀⠀⢸⣿⣿⣿⠀⠀
+    ⠀⠀⠀⢸⣿⣿⣿⠀⠀
+    ⠀⠀⠀⣾⣿⣿⣿⠀⠀
+    ⠀⠀⠀⣿⣿⣿⣿⠀⠀
+    ⠀⠀⠀⣿⣿⣿⣿⠀⠀"
+    
+    @middle_right_vert = "⠀⠀⢸⣿⣿⣿⡇⠀⠀⠀
+    ⠀⠀⢸⣿⣿⣿⠁⠀⠀⠀
+    ⠀⠀⢸⣿⣿⣿⠀⠀⠀⠀
+    ⠀⠀⢸⣿⣿⣿⠀⠀⠀⠀
+    ⠀⠀⠐⣿⣿⣿⠀⠀⠀⠀
+    ⠀⠀⠸⣿⣿⣿⠀⠀⠀⠀
+    ⠀⠀⠀⣿⣿⣿⠀⠀⠀⠀"
+    
+    @lower_horiz = "⠀⢀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣠⣿⣿⣿⣿⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣿⣿⣿⣀⢀⡀⣀⡀⣀⡀⣀⣀⢀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣶⣶⣶⣶⣶⠶⠶⠖⠂⠀
+⠀⠈⠉⠉⠉⠉⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⢻⣿⣿⣿⡟⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠋⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⣿⣿⡿⠉⠉⠉⠉⠉⠉⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
+    
+    
+    @bottom_left_gap = "⠀⠀⠀
+    ⠀⠀⠀
+    ⠀⠀⠀
+    ⠀⠀⠀
+    ⠀⠀⠀
+    ⠀⠀⠀
+    ⠀⠀⠀"
+    
+    @bottom_left_vert = "⠀⠀⠀⢸⣿⣿⣿⡇⠀⠀
+    ⠀⠀⠀⢸⣿⣿⣿⡇⠀⠀
+    ⠀⠀⠀⢸⣿⣿⣿⠇⠀⠀
+    ⠀⠀⠀⢸⣿⣿⣿⠀⠀⠀
+    ⠀⠀⠀⢸⣿⣿⣿⠀⠀⠀
+    ⠀⠀⠀⢸⣿⣿⣿⠀⠀⠀
+    ⠀⠀⠀⢸⣿⣿⡟⠀⠀⠀"
+    
+    
+    @bottom_right_vert = "⠀⠀⠀⢻⣿⡗⠀⠀⠀
+    ⠀⠀⠀⢸⣿⡇⠀⠀⠀
+    ⠀⠀⠀⢸⣿⡇⠀⠀⠀
+    ⠀⠀⠀⠘⣿⡇⠀⠀⠀
+    ⠀⠀⠀⠀⣿⡇⠀⠀⠀
+    ⠀⠀⠀⠀⣿⡇⠀⠀⠀
+    ⠀⠀⠀⠀⢹⠀⠀⠀⠀"
+    
+    @section_bottom = "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠿⢛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
+    
+    
+    @x1 = "⢠⣶⣶⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠀
+    ⠈⢿⣿⣿⣆⠀⠀⠀⠀⠀⠀⣠⣴⣿⣿⡆
+    ⠀⠈⢿⣿⣿⣦⡀⠀⢀⣠⣾⣿⣿⡿⠋⠀
+    ⠀⠀⠀⠹⣿⣿⣷⣴⣿⣿⣿⠟⠋⠀⠀⠀
+    ⠀⠀⠀⠀⣨⣿⣿⣿⣿⡋⠁⠀⠀⠀⠀⠀
+    ⠀⣀⣤⣾⡿⠟⠋⠻⣿⣷⣄⠀⠀⠀⠀⠀
+    ⠈⠉⠉⠁⠀⠀⠀⠀⠀⠙⠻⢧⠀⠀⠀⠀"
+    
+    @x2 = "⠀⣤⣶⣶⡀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡀⠀
+    ⠀⢻⣿⣿⣿⣆⠀⠀⠀⢀⣠⣶⣿⣿⣿⡆
+    ⠀⠀⠻⣿⣿⣿⣧⣠⣶⣿⣿⣿⣿⡿⠟⠁
+    ⠀⠀⠀⠙⣿⣿⣿⣿⣿⣿⠿⠛⠉⠀⠀⠀
+    ⠀⠀⣠⣾⣿⣿⣿⣿⣿⣷⡀⠀⠀⠀⠀⠀
+    ⣴⣿⡿⠟⠋⠁⠀⠙⠻⣿⣿⣦⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠻⠷⠀⠀⠀"
+    
+    @x3 = "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ⠀⠀⠀⣶⣾⣦⠀⠀⠀⢀⣀⣤⣶⣶⣶⣆
+    ⠀⠀⠀⠹⣿⣿⣷⣤⣶⣿⣿⣿⡿⠿⠛⠁
+    ⠀⠀⠀⢀⣼⣿⣿⣿⣿⣟⠋⠁⠀⠀⠀⠀
+    ⠀⢠⣶⣿⠿⠛⠉⠻⢿⣿⣷⣄⠀⠀⠀⠀
+    ⠰⠟⠉⠀⠀⠀⠀⠀⠀⠈⠙⠻⢧⠀⠀⠀
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
+    @x4 = "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ⠀⠀⢀⣤⣄⠀⠀⠀⠀⠀⠀⣀⣤⣶⣾⣆
+    ⠀⠀⢸⣿⣿⣦⠀⢀⣤⣶⣿⣿⣿⣿⠟⠃
+    ⠀⠀⠀⠻⣿⣿⣿⣿⣿⡿⠿⠛⠉⠀⠀⠀
+    ⠀⢀⣴⣾⣿⡿⣿⣿⣿⣄⠀⠀⠀⠀⠀⠀
+    ⢠⡾⠟⠋⠀⠀⠀⠙⠻⣿⣧⡀⠀⠀⠀⠀
+    ⠈⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠷⠀⠀⠀⠀"
+    
+    @o1 = "⠀⠀⠀⠀⣀⣤⣶⣾⣿⣷⣶⣤⡀⠀⠀⠀
+    ⠀⠀⣠⣾⣿⣿⣿⡿⠿⠿⠿⠿⣿⣦⠀⠀
+    ⠀⢠⣿⣿⡟⠋⠁⠀⠀⠀⠀⠀⢸⣿⣇⠀
+    ⠀⣸⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⡿⠀
+    ⠀⢸⣿⡇⠀⠀⠀⠀⠀⠀⠀⣠⣿⣿⠃⠀
+    ⠀⠘⣿⣿⣦⣀⣀⣀⣠⣤⣾⣿⡟⠁⠀⠀
+    ⠀⠀⠈⠛⠿⠿⠿⣿⠿⠟⠛⠁⠀⠀⠀⠀"
+    
+    @o2 = "⠀⠀⠀⠀⢀⣤⣶⣾⣿⣷⣶⡄⠀⠀⠀⠀
+    ⠀⠀⠀⣠⣿⣿⣿⣿⠿⠻⣿⡀⠀⠀⠀⠀
+    ⠀⠀⢰⣿⣿⣿⠏⠁⠀⠀⠸⣿⣆⠀⠀⠀
+    ⠀⠀⣾⣿⣿⡇⠀⠀⠀⠀⠀⢹⣿⡆⠀⠀
+    ⠀⠀⢿⣿⣿⡇⠀⠀⠀⠀⠀⣸⣿⡿⠀⠀
+    ⠀⠀⠸⣿⣿⣷⣦⣤⣤⣤⣶⣿⣿⠃⠀⠀
+    ⠀⠀⠀⠈⠻⢿⣿⣿⣿⠿⠿⠛⠁⠀⠀⠀"
+    
+    @o3 = "⠀⠀⠀⠀⠀⠀⣀⣤⣴⣶⣶⣦⣀⠀⠀⠀
+    ⠀⠀⠀⣠⣶⣿⣿⣿⣿⣿⣿⣿⣿⣇⠀⠀
+    ⠀⠀⣴⣿⣿⣿⠟⠉⠀⠀⠀⠀⠸⣿⡆⠀
+    ⠀⢸⣿⣿⡟⠁⠀⠀⠀⠀⠀⠀⢀⣿⡇⠀
+    ⠀⢿⣿⣿⡀⠀⠀⠀⠀⠀⣀⣠⣾⣿⠇⠀
+    ⠀⠸⣿⣿⣷⣤⣤⣤⣶⣾⣿⡿⠟⠁⠀⠀
+    ⠀⠀⠈⠻⢿⣿⣿⠿⠿⠛⠉⠀⠀⠀⠀⠀"
+    
+    @o4 = "⠀⠀⠀⠀⢀⣴⣶⣾⣿⣶⣶⠄⠀⠀⠀⠀
+    ⠀⠀⠀⣰⣿⣿⡿⠛⠛⠛⢿⣦⡀⠀⠀⠀
+    ⠀⠀⢰⣿⣿⡟⠀⠀⠀⠀⠀⠈⢿⣷⡀⠀
+    ⠀⠀⣼⣿⣿⠁⠀⠀⠀⠀⠀⠀⠀⣿⣷⠀
+    ⠀⠀⢿⣿⣿⠀⠀⠀⠀⠀⠀⢀⣴⣿⡏⠀
+    ⠀⠀⢸⣿⣿⣦⣤⣤⣤⣶⣾⣿⡿⠋⠀⠀
+    ⠀⠀⠀⠙⠿⠿⠿⠿⠿⠟⠋⠉⠀⠀⠀⠀"
+    
+    
+    @space = "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
+    @x = [self.x1, self.x2, self.x3, self.x4]
+    @o = [self.o1, self.o2, self.o3, self.o4]
 
     @top = [@space, @space, @space]
     @middle = [@space, @space, @space]
@@ -62,29 +187,31 @@ class Board
   end
 
   def game_won?
-    self.top.uniq.length == 1 && !self.top.include?(self.space)\
-    || self.middle.uniq.length == 1 && !self.middle.include?(self.space)\
-    || self.bottom.uniq.length == 1 && !self.bottom.include?(self.space)\
-    || self.vertical_left.uniq.length == 1 && !self.vertical_left.include?(self.space)\
-    || self.vertical_middle.uniq.length == 1 && !self.vertical_middle.include?(self.space)\
-    || self.vertical_right.uniq.length == 1 && !self.vertical_right.include?(self.space)\
-    || self.diagonal_forward.uniq.length == 1 && !self.diagonal_forward.include?(self.space)\
-    || self.diagonal_back.uniq.length == 1 && !self.diagonal_back.include?(self.space) 
+    self.top.all? {|e| self.x.include?(e)} || self.top.all? {|e| self.o.include?(e)} && !self.top.include?(self.space)\
+    || self.middle.all? {|e| self.x.include?(e)} || self.middle.all? {|e| self.o.include?(e)} && !self.middle.include?(self.space)\
+    || self.bottom.all? {|e| self.x.include?(e)} || self.bottom.all? {|e| self.o.include?(e)} && !self.bottom.include?(self.space)\
+    || self.vertical_left.all? {|e| self.x.include?(e)} || self.vertical_left.all? {|e| self.o.include?(e)} && !self.vertical_left.include?(self.space)\
+    || self.vertical_middle.all? {|e| self.x.include?(e)} || self.vertical_middle.all? {|e| self.o.include?(e)} && !self.vertical_middle.include?(self.space)\
+    || self.vertical_right.all? {|e| self.x.include?(e)} || self.vertical_right.all? {|e| self.o.include?(e)} && !self.vertical_right.include?(self.space)\
+    || self.diagonal_forward.all? {|e| self.x.include?(e)} || self.diagonal_forward.all? {|e| self.o.include?(e)} && !self.diagonal_forward.include?(self.space)\
+    || self.diagonal_back.all? {|e| self.x.include?(e)} || self.diagonal_back.all? {|e| self.o.include?(e)} && !self.diagonal_back.include?(self.space) 
   end
 
-  def print_board_row (row, edge = @edge)
-    edge.each_line.with_index do |line, index|
-      edge_line = edge.lines[index].strip
-      puts line.strip + row[0].lines[index].strip + edge_line + row[1].lines[index].strip + edge_line + row[2].lines[index].strip + edge_line
+  def print_board_row (row, left_sp, left_div, right_div)
+    left_sp.each_line.with_index do |line, index|
+      puts line.strip + row[0].lines[index].strip + left_div.lines[index].strip + row[1].lines[index].strip + right_div.lines[index].strip + row[2].lines[index].strip
     end
   end
-
-  def print_board
-    self.print_board_row(self.top)
-    self.print_board_row(self.middle)
-    self.print_board_row(self.bottom)
-  end
   
+  def print_board
+    puts self.section_top
+    self.print_board_row(self.top, self.top_left_gap, self.top_left_vert, self.top_right_vert)
+    puts self.upper_horiz
+    self.print_board_row(self.middle, self.middle_left_gap, self.middle_left_vert, self.middle_right_vert)
+    puts self.lower_horiz
+    self.print_board_row(self.bottom, self.bottom_left_gap, self.bottom_left_vert, self.bottom_right_vert)
+    puts self.section_bottom
+  end
 end
 
 the_board = Board.new
@@ -93,16 +220,16 @@ the_board.print_board
 
 player_switch = [1, 2]
 
-puts 'Player 1 choose piece (scarab or eye).'
-type = gets
+puts 'Player 1 choose piece (X or O).'
+type = gets.chomp.downcase
 
 system'clear'
 the_board.print_board
 
-if type == "scarab\n"
-  type_switch = [the_board.scarab, the_board.eye]
-elsif type == "eye\n"
-  type_switch = [the_board.eye, the_board.scarab]
+if type == "x"
+  type_switch = [the_board.x[0], the_board.o[0]]
+elsif type == "o"
+  type_switch = [the_board.o[0], the_board.x[0]]
 end
 
 until the_board.game_status == "victory" || the_board.game_status == "draw" do
@@ -159,8 +286,14 @@ until the_board.game_status == "victory" || the_board.game_status == "draw" do
   end
 
   player_switch = player_switch.reverse
+
+  the_board.x = the_board.x.rotate
+  the_board.o = the_board.o.rotate
+  
+  if the_board.x.include?(type_switch[0])
+    type_switch[0] = the_board.x[0]
+  elsif the_board.o.include?(type_switch[0])
+    type_switch[0] = the_board.o[0]
+  end
   type_switch = type_switch.reverse
 end
-
-#plan: loop "player 1 move, player 2 move" until win for either player is achieved, or until a draw occurs. use until loop?
-#instead of if statements, maybe make multiple arrays of instance variables named vertical and diagonal... horiz. already present.
