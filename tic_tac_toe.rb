@@ -1,6 +1,6 @@
 class Board
   attr_accessor :top, :middle, :bottom, :game_status, :x, :o, :piece_arr
-  attr_reader :space, :section_top, :top_left_gap, :top_left_vert, :top_right_vert, :upper_horiz, :middle_left_gap, :middle_left_vert, :middle_right_vert, :lower_horiz, :bottom_left_gap, :bottom_left_vert, :bottom_right_vert, :section_bottom, :vert_left, :vert_middle, :vert_right, :diag_forward, :diag_back, :total, :x1, :x2, :x3, :x4, :o1, :o2, :o3, :o4
+  attr_reader :space, :section_top, :top_left_gap, :top_left_vert, :top_right_vert, :upper_horiz, :middle_left_gap, :middle_left_vert, :middle_right_vert, :lower_horiz, :bottom_left_gap, :bottom_left_vert, :bottom_right_vert, :section_bottom, :vert_left, :vert_middle, :vert_right, :diag_forward, :diag_back, :total, :total_2, :x1, :x2, :x3, :x4, :o1, :o2, :o3, :o4
   
   def initialize
     @section_top = "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -180,6 +180,7 @@ class Board
     @diag_forward = [@bottom[0], @middle[1], @top[2]]
     @diag_back = [@top[0], @middle[1], @bottom[2]]
     @total = [@top, @middle, @bottom, @vert_left, @vert_middle, @vert_right, @diag_forward, @diag_back]
+    @total_2 = [@top, @middle, @bottom]
   end
 
   def game_won?
@@ -213,7 +214,7 @@ typo_str = "Typo. Try again."
 type = ''
 
 loop do
-  puts 'Player 1 choose piece_arr (X or O).'
+  puts 'Player 1 choose piece (X or O).'
   type = gets.chomp.downcase
   break if type == 'o' || type == 'x'
   puts typo_str
@@ -281,10 +282,34 @@ until the_board.game_status == "victory" || the_board.game_status == "draw" do
 
   if the_board.game_won? then 
     puts "Player #{player_switch[0]} wins! Game over!"
-    the_board.game_status = "victory"
-  elsif !the_board.total.flatten.include?(the_board.space) && !the_board.game_won?
-    puts "It's a draw. Game over."
-    the_board.game_status = "draw"
+    the_board.game_status = "victory"  
+  elsif the_board.total_2.flatten.count(the_board.space) <= 2
+    check_for_draw = Marshal.load( Marshal.dump(the_board))
+    check_for_draw_2 = Marshal.load( Marshal.dump(the_board))
+    draw_switch = type_switch
+
+    def draw_check(board, draw_switch, the_board)
+      2.times do
+        if board.top.include?(board.space)
+          board.top[board.top.index(board.space)] = draw_switch[0]
+        elsif board.middle.include?(board.space)
+          board.middle[board.middle.index(board.space)] = draw_switch[0]
+        elsif board.bottom.include?(board.space)
+          board.bottom[board.bottom.index(board.space)] = draw_switch[0]
+        end
+        draw_switch = draw_switch.reverse
+      end
+      board.assign_for_win_check
+    end
+
+    draw_check(check_for_draw, draw_switch, the_board)
+    draw_switch = draw_switch.reverse
+    draw_check(check_for_draw_2, draw_switch, the_board)
+
+    if !check_for_draw.game_won? && !check_for_draw_2.game_won?
+      puts "It's a draw. Game over."
+      the_board.game_status = "draw"
+    end
   end
 
   player_switch = player_switch.reverse
