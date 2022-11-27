@@ -202,116 +202,115 @@ class Board
     self.print_board_row(self.bottom, self.bottom_left_gap, self.bottom_left_vert, self.bottom_right_vert)
     puts self.section_bottom
   end
-end
 
-the_board = Board.new
-system'clear'
-the_board.print_board
-
-player_switch = [1, 2]
-
-typo_str = "Typo. Try again."
-type = ''
-
-loop do
-  puts 'Player 1 choose piece (X or O).'
-  type = gets.chomp.downcase
-  break if type == 'o' || type == 'x'
-  puts typo_str
-end
-
-system'clear'
-the_board.print_board
-
-if type == "x"
-  type_switch = [the_board.x[0], the_board.o[0]]
-elsif type == "o"
-  type_switch = [the_board.o[0], the_board.x[0]]
-end
-
-until the_board.game_status == "victory" || the_board.game_status == "draw" do
-  puts "Player #{player_switch[0]} move. State row followed by column e.g. \'top middle\'."
-
-  position = gets.split
-
-  case position[1]
-  when "left"
-    position[1] = 0
-  when "middle"
-    position[1] = 1
-  when "right"
-    position[1] = 2
-  else
-    puts typo_str
-    redo
-  end
-
-  case position[0]
-  when "top"
-    x = the_board.top
-  when "middle"
-    x = the_board.middle
-  when "bottom"
-    x = the_board.bottom
-  else
-    puts typo_str
-    redo
-  end
-
-  if x[position[1]] == the_board.space
-    x[position[1]] = type_switch[0]
-  else
-    puts "Please choose an empty space."
-    redo
-  end
-
-  if the_board.x.include?(type_switch[0])
-    the_board.x.rotate!
-    type_switch[0] = the_board.x[0]
-    the_board.piece_arr = the_board.x
-  elsif the_board.o.include?(type_switch[0])
-    the_board.o.rotate!
-    type_switch[0] = the_board.o[0]
-    the_board.piece_arr = the_board.o
-  end
-
-  system'clear'
-  the_board.print_board
-
-  the_board.assign_for_win_check
-
-  if the_board.game_won? then 
-    puts "Player #{player_switch[0]} wins! Game over!"
-    the_board.game_status = "victory"  
-  elsif the_board.total_2.flatten.count(the_board.space) <= 2
-    check_for_draw = Marshal.load( Marshal.dump(the_board))
-    check_for_draw_2 = Marshal.load( Marshal.dump(the_board))
-    draw_switch = type_switch
-
-    def draw_check(board, draw_switch)
-      2.times do
-        if board.top.include?(board.space)
-          board.top[board.top.index(board.space)] = draw_switch[0]
-        elsif board.middle.include?(board.space)
-          board.middle[board.middle.index(board.space)] = draw_switch[0]
-        elsif board.bottom.include?(board.space)
-          board.bottom[board.bottom.index(board.space)] = draw_switch[0]
-        end
-        draw_switch = draw_switch.reverse
+  def play_game
+    system'clear'
+    self.print_board
+    player_switch = [1, 2]
+    typo_str = "Typo. Try again."
+    type = ''
+    loop do
+      puts 'Player 1 choose piece (X or O).'
+      type = gets.chomp.downcase
+      break if type == 'o' || type == 'x'
+      puts typo_str
+    end
+    
+    system'clear'
+    self.print_board
+    if type == "x"
+      type_switch = [self.x[0], self.o[0]]
+    elsif type == "o"
+      type_switch = [self.o[0], self.x[0]]
+    end
+    
+    until self.game_status == "victory" || self.game_status == "draw" do
+      puts "Player #{player_switch[0]} move. State row followed by column e.g. \'top middle\'."
+    
+      position = gets.split
+    
+      case position[1]
+      when "left"
+        position[1] = 0
+      when "middle"
+        position[1] = 1
+      when "right"
+        position[1] = 2
+      else
+        puts typo_str
+        redo
       end
-      board.assign_for_win_check
-    end
-
-    draw_check(check_for_draw, draw_switch)
-    draw_switch = draw_switch.reverse
-    draw_check(check_for_draw_2, draw_switch)
-
-    if !check_for_draw.game_won? && !check_for_draw_2.game_won?
-      puts "It's a draw. Game over."
-      the_board.game_status = "draw"
+    
+      case position[0]
+      when "top"
+        x = self.top
+      when "middle"
+        x = self.middle
+      when "bottom"
+        x = self.bottom
+      else
+        puts typo_str
+        redo
+      end
+    
+      if x[position[1]] == self.space
+        x[position[1]] = type_switch[0]
+      else
+        puts "Please choose an empty space."
+        redo
+      end
+    
+      if self.x.include?(type_switch[0])
+        self.x.rotate!
+        type_switch[0] = self.x[0]
+        self.piece_arr = self.x
+      elsif self.o.include?(type_switch[0])
+        self.o.rotate!
+        type_switch[0] = self.o[0]
+        self.piece_arr = self.o
+      end
+    
+      system'clear'
+      self.print_board
+    
+      self.assign_for_win_check
+    
+      if self.game_won? then 
+        puts "Player #{player_switch[0]} wins! Game over!"
+        self.game_status = "victory"  
+      elsif self.total_2.flatten.count(self.space) <= 2
+        check_for_draw = Marshal.load( Marshal.dump(self))
+        check_for_draw_2 = Marshal.load( Marshal.dump(self))
+        draw_switch = type_switch
+    
+        def draw_check(board, draw_switch)
+          2.times do
+            if board.top.include?(board.space)
+              board.top[board.top.index(board.space)] = draw_switch[0]
+            elsif board.middle.include?(board.space)
+              board.middle[board.middle.index(board.space)] = draw_switch[0]
+            elsif board.bottom.include?(board.space)
+              board.bottom[board.bottom.index(board.space)] = draw_switch[0]
+            end
+            draw_switch = draw_switch.reverse
+          end
+          board.assign_for_win_check
+        end
+    
+        draw_check(check_for_draw, draw_switch)
+        draw_switch = draw_switch.reverse
+        draw_check(check_for_draw_2, draw_switch)
+    
+        if !check_for_draw.game_won? && !check_for_draw_2.game_won?
+          puts "It's a draw. Game over."
+          self.game_status = "draw"
+        end
+      end
+    
+      player_switch = player_switch.reverse
+      type_switch = type_switch.reverse
     end
   end
-
-  player_switch = player_switch.reverse
-  type_switch = type_switch.reverse
 end
+
+Board.new.play_game
