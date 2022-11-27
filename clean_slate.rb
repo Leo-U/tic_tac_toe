@@ -1,7 +1,4 @@
-class Board
-  attr_accessor :top, :middle, :bottom, :game_status, :x, :o, :piece_arr
-  attr_reader :space, :section_top, :top_left_gap, :top_left_vert, :top_right_vert, :upper_horiz, :middle_left_gap, :middle_left_vert, :middle_right_vert, :lower_horiz, :bottom_left_gap, :bottom_left_vert, :bottom_right_vert, :section_bottom, :vert_left, :vert_middle, :vert_right, :diag_forward, :diag_back, :total, :total_2, :x1, :x2, :x3, :x4, :o1, :o2, :o3, :o4
-  
+module Init
   def initialize
     @section_top = "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -172,6 +169,13 @@ class Board
     @game_status = "ongoing"
     @piece_arr = []
   end
+end
+
+class Board
+  attr_accessor :top, :middle, :bottom, :game_status, :x, :o, :piece_arr
+  attr_reader :space, :section_top, :top_left_gap, :top_left_vert, :top_right_vert, :upper_horiz, :middle_left_gap, :middle_left_vert, :middle_right_vert, :lower_horiz, :bottom_left_gap, :bottom_left_vert, :bottom_right_vert, :section_bottom, :vert_left, :vert_middle, :vert_right, :diag_forward, :diag_back, :total, :total_2, :x1, :x2, :x3, :x4, :o1, :o2, :o3, :o4
+  
+  include Init
 
   def assign_for_win_check
     @vert_left = [@top[0], @middle[0], @bottom[0]]
@@ -184,7 +188,7 @@ class Board
   end
 
   def game_won?
-    @total.any?{|el| el.all? {|e| @piece_arr.include?(e)}}
+    total.any?{|el| el.all? {|e| @piece_arr.include?(e)}}
   end
 
   def print_board_row (row, left_sp, left_div, right_div)
