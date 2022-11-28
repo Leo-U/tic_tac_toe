@@ -1,3 +1,5 @@
+Ends inevitably drawn games up to two moves before the board is filled.
+
 replit: https://replit.com/@LeoU1/tic-tac-toe?v=1 (you have to fullscreen the terminal to see the whole board)
 
 live webpage version: https://leo-u.github.io/tic_tac_toe/ (no full screen necessary)
